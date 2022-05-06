@@ -7,20 +7,23 @@ const {context = {}}: any = github
 
 async function run(): Promise<string> {
   try {
-    const author: string = context?.payload?.head_commit?.author.username
     core.info(context?.payload?.head_commit?.message)
     // this returns commit with pr informations
     // get pull Number, make an api request to fetch pr informations
-    const pullNumber: number = context.payload?.head_commit?.message
+    const pullNumber: string = context.payload?.head_commit?.message
       ?.split(' ')
       ?.find((o: string) => o?.includes('#'))
       ?.split('#')[1]
+
+    core.info(pullNumber)
+
     const pullRequest: any = await octokit.rest.pulls.get({
       owner: context.payload?.repository?.owner?.login,
       repo: context.payload?.repository?.name,
-      pull_number: pullNumber
+      pull_number: Number(pullNumber)
     })
-    core.info(pullRequest?.data)
+    core.info(pullRequest?.data?.head.user.login)
+    const author: string = pullRequest?.data?.head.user.login
     return author
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

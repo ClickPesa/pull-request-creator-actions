@@ -44,17 +44,18 @@ function run() {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const author = (_b = (_a = context === null || context === void 0 ? void 0 : context.payload) === null || _a === void 0 ? void 0 : _a.head_commit) === null || _b === void 0 ? void 0 : _b.author.username;
-            core.info((_d = (_c = context === null || context === void 0 ? void 0 : context.payload) === null || _c === void 0 ? void 0 : _c.head_commit) === null || _d === void 0 ? void 0 : _d.message);
+            core.info((_b = (_a = context === null || context === void 0 ? void 0 : context.payload) === null || _a === void 0 ? void 0 : _a.head_commit) === null || _b === void 0 ? void 0 : _b.message);
             // this returns commit with pr informations
             // get pull Number, make an api request to fetch pr informations
-            const pullNumber = (_j = (_h = (_g = (_f = (_e = context.payload) === null || _e === void 0 ? void 0 : _e.head_commit) === null || _f === void 0 ? void 0 : _f.message) === null || _g === void 0 ? void 0 : _g.split(' ')) === null || _h === void 0 ? void 0 : _h.find((o) => o === null || o === void 0 ? void 0 : o.includes('#'))) === null || _j === void 0 ? void 0 : _j.split('#')[1];
+            const pullNumber = (_g = (_f = (_e = (_d = (_c = context.payload) === null || _c === void 0 ? void 0 : _c.head_commit) === null || _d === void 0 ? void 0 : _d.message) === null || _e === void 0 ? void 0 : _e.split(' ')) === null || _f === void 0 ? void 0 : _f.find((o) => o === null || o === void 0 ? void 0 : o.includes('#'))) === null || _g === void 0 ? void 0 : _g.split('#')[1];
+            core.info(pullNumber);
             const pullRequest = yield octokit.rest.pulls.get({
-                owner: (_m = (_l = (_k = context.payload) === null || _k === void 0 ? void 0 : _k.repository) === null || _l === void 0 ? void 0 : _l.owner) === null || _m === void 0 ? void 0 : _m.login,
-                repo: (_p = (_o = context.payload) === null || _o === void 0 ? void 0 : _o.repository) === null || _p === void 0 ? void 0 : _p.name,
-                pull_number: pullNumber
+                owner: (_k = (_j = (_h = context.payload) === null || _h === void 0 ? void 0 : _h.repository) === null || _j === void 0 ? void 0 : _j.owner) === null || _k === void 0 ? void 0 : _k.login,
+                repo: (_m = (_l = context.payload) === null || _l === void 0 ? void 0 : _l.repository) === null || _m === void 0 ? void 0 : _m.name,
+                pull_number: Number(pullNumber)
             });
-            core.info(pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data);
+            core.info((_o = pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data) === null || _o === void 0 ? void 0 : _o.head.user.login);
+            const author = (_p = pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data) === null || _p === void 0 ? void 0 : _p.head.user.login;
             return author;
         }
         catch (error) {
