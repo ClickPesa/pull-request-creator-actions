@@ -37,13 +37,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
+const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+const octokit = github.getOctokit(GITHUB_TOKEN);
 const { context = {} } = github;
 function run() {
-    var _a, _b;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const author = (_b = (_a = context === null || context === void 0 ? void 0 : context.payload) === null || _a === void 0 ? void 0 : _a.head_commit) === null || _b === void 0 ? void 0 : _b.author.username;
-            core.info(author);
+            core.info((_d = (_c = context === null || context === void 0 ? void 0 : context.payload) === null || _c === void 0 ? void 0 : _c.head_commit) === null || _d === void 0 ? void 0 : _d.message);
+            // this returns commit with pr informations
+            // get pull Number, make an api request to fetch pr informations
+            const pullNumber = (_j = (_h = (_g = (_f = (_e = context.payload) === null || _e === void 0 ? void 0 : _e.head_commit) === null || _f === void 0 ? void 0 : _f.message) === null || _g === void 0 ? void 0 : _g.split(' ')) === null || _h === void 0 ? void 0 : _h.find((o) => o === null || o === void 0 ? void 0 : o.includes('#'))) === null || _j === void 0 ? void 0 : _j.split('#')[1];
+            const pullRequest = yield octokit.rest.pulls.get({
+                owner: (_m = (_l = (_k = context.payload) === null || _k === void 0 ? void 0 : _k.repository) === null || _l === void 0 ? void 0 : _l.owner) === null || _m === void 0 ? void 0 : _m.login,
+                repo: (_p = (_o = context.payload) === null || _o === void 0 ? void 0 : _o.repository) === null || _p === void 0 ? void 0 : _p.name,
+                pull_number: pullNumber
+            });
+            core.info(pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data);
             return author;
         }
         catch (error) {
