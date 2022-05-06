@@ -43,6 +43,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const author = (_b = (_a = context === null || context === void 0 ? void 0 : context.payload) === null || _a === void 0 ? void 0 : _a.head_commit) === null || _b === void 0 ? void 0 : _b.author.username;
+            core.info(author);
             return author;
         }
         catch (error) {
