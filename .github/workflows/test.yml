@@ -19,5 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: ./
+        id: pull_request_author
         with:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
+      - name: Get the username
+        run: echo "The author was ${{ steps.pull_request_author.outputs }}"
