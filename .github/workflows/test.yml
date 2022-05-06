@@ -23,4 +23,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
       - name: Get the username
-        run: echo "The author was ${{ steps.pull_request_author.outputs }}"
+        run: echo "The author was ${{ steps.pull_request_author.outputs.author }}"
