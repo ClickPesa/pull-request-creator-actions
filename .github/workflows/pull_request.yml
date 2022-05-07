@@ -1,0 +1,23 @@
+name: 'build-test'
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - run: |
+  #         npm install
+  test: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses:  thomaseizinger/create-pull-request@master
+        id: pull_request_author
+        with:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          head: ${{ github.ref }}
+          base: main
+          title: "An automatically created PR!"
