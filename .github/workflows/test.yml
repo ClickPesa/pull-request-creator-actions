@@ -23,9 +23,9 @@ jobs:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
       - name: Get the username
         run: echo "The author was ${{ steps.pull_request_author.outputs.author }}"
-      - uses: pocket-apps/action-update-version@v1
+      - name: bump version
+        uses: pocket-apps/action-update-version@v1
         with:
-          files: 'package.json'
           version-regexp: '\d+.\d+.\d+'
           repo-token: ${{ secrets.TOKEN }}
           branch-name: develop
