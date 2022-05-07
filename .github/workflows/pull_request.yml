@@ -1,8 +1,7 @@
 name: 'build-test'
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
 
 jobs:
   # build:
@@ -15,8 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: quangvo09/pull-request-action@v1
+      - uses:  BaharaJr/create-pr@0.0.1
         id: pull_request_author
         with:
-          github_token: ${{ secrets.TOKEN }}
-          base_branch: develop
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          DESTINATION_BRANCH: main
+          KEYWORD: "test"
