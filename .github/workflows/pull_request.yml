@@ -15,9 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: peter-evans/create-pull-request@v4
+      - uses: quangvo09/pull-request-action@v1
         id: pull_request_author
         with:
-          token: ${{secrets.TOKEN}}
-          base: main
-          branch: develop
+          github_token: ${{ secrets.TOKEN }}
+          base_branch: develop
