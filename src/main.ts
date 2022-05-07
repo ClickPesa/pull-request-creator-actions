@@ -5,7 +5,7 @@ const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN')
 const octokit = github.getOctokit(GITHUB_TOKEN)
 const {context = {}}: any = github
 
-async function run(): Promise<string> {
+async function run(): Promise<any> {
   try {
     const pullNumber: string = context.payload?.head_commit?.message
       ?.split(' ')
@@ -17,7 +17,7 @@ async function run(): Promise<string> {
       pull_number: Number(pullNumber)
     })
     const author: string = pullRequest?.data?.head.user.login
-    return author
+    core.setOutput('author', author)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
