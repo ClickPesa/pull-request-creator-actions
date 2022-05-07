@@ -34,4 +34,5 @@ jobs:
         with:
           branch: develop
           commit_message: Skip CI
+          commit_user_name: bmsteven
           file_pattern: CHANGELOG.md
