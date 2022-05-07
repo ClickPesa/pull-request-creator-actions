@@ -51,7 +51,6 @@ function run() {
                 pull_number: Number(pullNumber)
             });
             const author = (_l = pullRequest === null || pullRequest === void 0 ? void 0 : pullRequest.data) === null || _l === void 0 ? void 0 : _l.head.user.login;
-            core.info(author);
             return author;
         }
         catch (error) {

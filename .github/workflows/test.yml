@@ -18,9 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ./
+      - name: Get author's name and store on the variable
+        run: |
+          AUTHOR=$(node ./)
+          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
         id: pull_request_author
         with:
           GITHUB_TOKEN: ${{secrets.TOKEN}}
       - name: Get the username
-        run: echo "The author was ${{ steps.pull_request_author.outputs.author }}"
+        run: echo "The author was ${{ env.AUTHOR }}"
