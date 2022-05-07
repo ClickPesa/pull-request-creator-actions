@@ -38,10 +38,10 @@ jobs:
           files: 'package.json'
           version-regexp: '\d+.\d+.\d+'
           repo-token: ${{ secrets.TOKEN }}
-      - name: update develop branch
-        run: |
-          git add package.json
-          git add changelog.md
-          git add action
-          git commit -m "Skip CI"
-          git push
+      # - name: update develop branch
+      #   run: |
+      #     git add package.json
+      #     git add changelog.md
+      #     git add action
+      #     git commit -m "Skip CI"
+      #     git push
