@@ -21,4 +21,4 @@ jobs:
           head: ${{ github.ref }}
           base: main
           title: "An automatically created PR!"
-          body: "test body"
+          body: "> test body"
