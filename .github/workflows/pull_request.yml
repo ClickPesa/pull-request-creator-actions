@@ -20,3 +20,4 @@ jobs:
         with:
           token: ${{secrets.TOKEN}}
           base: main
+          branch: develop
