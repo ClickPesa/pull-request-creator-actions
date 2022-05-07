@@ -9,6 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: BaharaJr/merge-pr@0.0.2
-        id: pull_request_author
         with:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
