@@ -17,6 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+
+      #  push changes to develop
+      - name: set global attributes
+        run: |
+          git config --global user.email "bmsteve96@gmail.com"
+          git config --global user.name "Benedict Steven"
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
       - uses: ./
         id: pull_request_author
         with:
@@ -24,8 +34,15 @@ jobs:
       - name: Get the username
         run: echo "The author was ${{ steps.pull_request_author.outputs.author }}"
       - name: bump version
-        uses: pocket-apps/action-update-version@v1
+        uses: MontyD/package-json-updated-action
         with:
-          version-regexp: '\d+.\d+.\d+'
-          repo-token: ${{ secrets.TOKEN }}
-          branch-name: develop
+          path: package.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: update develop branch
+        run: |
+          git add package.json
+          git add changelog.md
+          git add action
+          git commit -m "Skip CI"
+          git push
