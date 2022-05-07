@@ -17,6 +17,7 @@ async function run(): Promise<string> {
       pull_number: Number(pullNumber)
     })
     const author: string = pullRequest?.data?.head.user.login
+    core.info(author)
     return author
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
