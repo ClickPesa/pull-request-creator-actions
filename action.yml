@@ -1,10 +1,16 @@
-name: 'Get pull request creator informations'
+name: 'Bump app version'
 description: ''
 author: 'Benedict'
 inputs:
   GITHUB_TOKEN:
+    description: 'GitHub Token'
     required: true
-    description: "authorization token to perform actions"
+  PACKAGE_VERSION:
+    description: 'package version'
+    required: false
+  DELETE_BRANCH:
+    description: 'delete branch condition'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

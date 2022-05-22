@@ -1,38 +1,55 @@
-name: 'build-test'
+name: on merging to default branch
+
 on:
-  push:
-    branches:
-      - main
+   push:
+     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
-  test: 
-    runs-on: ubuntu-latest
-    steps:
       - uses: actions/checkout@v2
-      - uses: ./
-        id: pull_request_author
         with:
-          GITHUB_TOKEN: ${{secrets.TOKEN}}
-      - name: Get the username
-        run: echo "The author was ${{ steps.pull_request_author.outputs.author }}"
-      - name: Update Changelog
-        uses: stefanzweifel/changelog-updater-action@v1
-        with:
-          latest-version: "1.1.1"
-          release-notes: "* commits"
+          ref: develop
 
-      - name: Commit updated CHANGELOG
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          branch: develop
-          commit_message: Skip CI
-          commit_user_name: bmsteven
-          file_pattern: CHANGELOG.md
+      #  push changes to develop
+      - name: set global attributes
+        run: |
+          git config --global user.email "bmsteve96@gmail.com"
+          git config --global user.name "Benedict Steven"
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN }}@github.com/${{ github.repository }}
+      - name: Build
+        run: npm install
+
+      - name: install jq
+        run: npm install jq
+          
+      - name: get version
+        run: |
+          PACKAGE_VERSION=$(cat ./package.json | jq '.version' | tr -d '"') 
+          echo "::set-output name=PACKAGE_VERSION::$(cat ./package.json | jq '.version' | tr -d '"')"
+          echo $PACKAGE_VERSION
+        id: version
+
+      - name: Build
+        run: |
+          npm run build
+        
+      - name: test version
+        run: echo ${{ steps.version.outputs.PACKAGE_VERSION }}
+
+      - name: eod actions
+        uses: ./
+        with: 
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
+          PACKAGE_VERSION: ${{ steps.version.outputs.PACKAGE_VERSION }}
+          DELETE_BRANCH: true
+
+      - name: update develop branch
+        run: |
+          git add package.json
+          git add changelog.md
+          git add action
+          git commit -m "Skip CI"
+          git push
