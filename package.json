@@ -1,8 +1,8 @@
 {
-  "name": "pr-creator-info",
+  "name": "bump-version",
   "version": "0.0.0",
   "private": true,
-  "description": "Getting pull request creator informations",
+  "description": "Bump app version",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -26,7 +26,10 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "@actions/github": "^5.0.1"
+    "@actions/github": "^5.0.1",
+    "gulp": "^4.0.2",
+    "gulp-append-prepend": "^1.0.9",
+    "gulp-json-modify": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^16.10.5",
